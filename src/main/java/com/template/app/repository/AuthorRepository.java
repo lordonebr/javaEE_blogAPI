@@ -42,13 +42,8 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 		try {
 			LOGGER.info("AuthorRepository.get: id " + id);
 			
-			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery q = cb.createQuery(AuthorEntity.class);
-			Root o = q.from(AuthorEntity.class);
-
-			q.where(cb.equal(o.get("id"), id));
-
-			AuthorEntity author = (AuthorEntity)getEntityManager().createQuery(q).getSingleResult();	
+			AuthorEntity author = GetAuthorById(id);
+	
 			LOGGER.info("AuthorRepository.get: return " + author);
 			return author;
 
@@ -96,9 +91,12 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 		try {
 			LOGGER.info("AuthorRepository.deleteById: id " + entityId);
 			
-			Query query = getEntityManager().createNamedQuery("AutorEntity.removeById");
+			AuthorEntity author = GetAuthorById(entityId);
+			getEntityManager().remove(author);
+			
+			/*Query query = getEntityManager().createNamedQuery("AutorEntity.removeById");
 			query.setParameter("id", entityId);
-			query.executeUpdate();
+			query.executeUpdate();*/
 			
 			LOGGER.info("AuthorRepository.deleteById:");
 
@@ -110,5 +108,18 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
+	
+	private AuthorEntity GetAuthorById(Long entityId) {
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery q = cb.createQuery(AuthorEntity.class);
+		Root o = q.from(AuthorEntity.class);
+
+		q.where(cb.equal(o.get("id"), entityId));
+
+		AuthorEntity author = (AuthorEntity)getEntityManager().createQuery(q).getSingleResult();
+		return author;
+	}
+	
 
 }

@@ -13,6 +13,7 @@
 
 		<!-- Entities -->
 		<class>com.template.app.entity.AuthorEntity</class>
+		<class>com.template.app.entity.PostEntity</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
