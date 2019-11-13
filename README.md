@@ -13,7 +13,7 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   GET http://localhost:8080/templatejee/rest/authors\{id}
   ```
   Exemplo para recuperar o autor de id = 1:
-  http://localhost:8080/templatejee/rest/authors\1      
+  http://localhost:8080/templatejee/rest/authors/1      
     
   * Operação para adicionar um autor (JSON obrigatório):  
   ```
@@ -47,4 +47,11 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   ```
   GET http://localhost:8080/templatejee/rest/posts
   ```  
+  
+  * Recupera todas as postagens de um autor:  
+  ```
+  GET http://localhost:8080/templatejee/rest/authors/{id_author}/posts
+  ```  
+  Exemplo para recuperar todos as postagens do autor de id = 1:
+  http://localhost:8080/templatejee/rest/authors/1/posts  
       
