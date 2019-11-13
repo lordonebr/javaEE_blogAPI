@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.template.app.entity.AuthorEntity;
+import com.template.app.entity.PostEntity;
 import com.template.app.repository.AuthorRepository;
 
 
@@ -36,6 +37,16 @@ public class AuthorService {
 		
 		return author;
 	}
+	
+	public List<PostEntity> getAuthorPosts(Long entityId) {
+		LOGGER.info("AuthorService.getAuthorPosts: id " + entityId);
+		
+		List<PostEntity> lstPosts =  authorRepository.getAuthorPosts(entityId);
+		
+		LOGGER.info("AuthorService.getAuthorPosts: " + lstPosts);
+		
+		return lstPosts;
+	}
 
 	public AuthorEntity create(AuthorEntity author) {
 		LOGGER.info("AuthorService.create");
@@ -47,12 +58,30 @@ public class AuthorService {
 		return newAuthor;
 	}
 	
+	public PostEntity createPostByAuthor(Long entityAuthorId, PostEntity post) {
+		LOGGER.info("AuthorService.createPostByAuthor");
+		
+		PostEntity newPost =  authorRepository.createPostByAuthor(entityAuthorId, post);
+		
+		LOGGER.info("AuthorService.createPostByAuthor: " + newPost);
+		
+		return newPost;
+	}
+	
 	public void update(AuthorEntity author) {
 		LOGGER.info("AuthorService.update");
 		
 		authorRepository.update(author);
 		
 		LOGGER.info("AuthorService.update return");
+	}
+	
+	public void updatePostByAuthor(Long entityAuthorId, PostEntity post) {
+		LOGGER.info("AuthorService.updatePostByAuthor");
+		
+		authorRepository.updatePostByAuthor(entityAuthorId, post);
+		
+		LOGGER.info("AuthorService.updatePostByAuthor return");
 	}
 
 	public void deleteById(Long entityId) {
@@ -62,4 +91,14 @@ public class AuthorService {
 		
 		LOGGER.info("AuthorService.deleteById return");
 	}
+
+	public void deletePostById(Long authorId, Long postId) {
+		LOGGER.info("AuthorService.deletePostById: id " + postId);
+		
+		authorRepository.deletePostById(authorId, postId);
+		
+		LOGGER.info("AuthorService.deletePostById return");
+	}
+
+
 }

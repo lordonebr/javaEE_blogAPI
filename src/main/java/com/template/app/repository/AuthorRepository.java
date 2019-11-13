@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import com.template.app.entity.AuthorEntity;
+import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
 import com.template.app.messages.AppBeanMessages;
 
@@ -55,6 +56,28 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
+	
+	public List<PostEntity> getAuthorPosts(Long entityId) {
+		try {
+			LOGGER.info("AuthorRepository.getAuthorPosts: id " + entityId);
+			
+			AuthorEntity author = GetAuthorById(entityId);
+			
+			List<PostEntity> lstPosts = null;
+			if(author != null)
+				lstPosts = author.getPosts();
+	
+			LOGGER.info("AuthorRepository.getAuthorPosts: return " + lstPosts);
+			return lstPosts;
+
+		} catch (AppException e) {
+			LOGGER.severe("AuthorRepository.getAuthorPosts AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("AuthorRepository.getAuthorPosts Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
 
 	public AuthorEntity create(AuthorEntity author) {
 		try {
@@ -68,6 +91,27 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			throw e;
 		} catch (Exception e) {
 			LOGGER.severe("AuthorRepository.create Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
+	public PostEntity createPostByAuthor(Long entityAuthorId, PostEntity post) {
+		try {
+			LOGGER.info("AuthorRepository.createPostByAuthor");
+			AuthorEntity author = GetAuthorById(entityAuthorId);
+			List<PostEntity> lstPosts = author.getPosts();
+			lstPosts.add(post);
+			 
+			getEntityManager().persist(author);	
+			
+			LOGGER.info("AuthorRepository.createPostByAuthor: return " + post);
+			return post;
+
+		} catch (AppException e) {
+			LOGGER.severe("AuthorRepository.createPostByAuthor AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("AuthorRepository.createPostByAuthor Exception: "+e.getMessage());
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
@@ -86,6 +130,38 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
+	
+	public void updatePostByAuthor(Long entityAuthorId, PostEntity post) {
+		try {
+			LOGGER.info("AuthorRepository.updatePostByAuthor");
+			AuthorEntity author = GetAuthorById(entityAuthorId);
+			List<PostEntity> lstPosts = author.getPosts();
+			
+			if(post.getId() == null)
+				lstPosts.add(post);
+			else {
+				for(int i = 0; i < lstPosts.size(); i++)
+				{
+					if(lstPosts.get(i).getId() == post.getId())
+					{
+						lstPosts.get(i).setAttributes(post);
+						break;
+					}
+				}
+			}
+			
+			getEntityManager().persist(author);	
+			
+			LOGGER.info("AuthorRepository.updatePostByAuthor: return " + post);
+
+		} catch (AppException e) {
+			LOGGER.severe("AuthorRepository.updatePostByAuthor AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("AuthorRepository.updatePostByAuthor Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
 
 	public void deleteById(Long entityId) {
 		try {
@@ -93,10 +169,6 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			
 			AuthorEntity author = GetAuthorById(entityId);
 			getEntityManager().remove(author);
-			
-			/*Query query = getEntityManager().createNamedQuery("AutorEntity.removeById");
-			query.setParameter("id", entityId);
-			query.executeUpdate();*/
 			
 			LOGGER.info("AuthorRepository.deleteById:");
 
@@ -108,7 +180,35 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
-	
+
+	public void deletePostById(Long authorId, Long postId) {
+		try {
+			LOGGER.info("AuthorRepository.deletePostById");
+			AuthorEntity author = GetAuthorById(authorId);
+			
+			List<PostEntity> lstPosts = author.getPosts();
+			for(int i = 0; i < lstPosts.size(); i++)
+			{
+				if(lstPosts.get(i).getId().longValue() == postId)
+				{
+					lstPosts.remove(i);
+					break;
+				}
+			}
+			
+			getEntityManager().persist(author);	
+			
+			LOGGER.info("AuthorRepository.deletePostById");
+
+		} catch (AppException e) {
+			LOGGER.severe("AuthorRepository.deletePostById AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("AuthorRepository.deletePostById Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+
 	private AuthorEntity GetAuthorById(Long entityId) {
 		
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -120,6 +220,4 @@ public class AuthorRepository extends AbstractRepository<Long, AuthorEntity> {
 		AuthorEntity author = (AuthorEntity)getEntityManager().createQuery(q).getSingleResult();
 		return author;
 	}
-	
-
 }

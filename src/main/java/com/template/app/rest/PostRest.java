@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -15,7 +16,7 @@ import com.template.app.exception.AppException;
 import com.template.app.service.PostService;
 
 
-@Path("/post")
+@Path("/posts")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public class PostRest {
@@ -26,13 +27,22 @@ public class PostRest {
 	private PostService postService;
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	public List<PostEntity> getAllPost() throws AppException{
 		
 		LOGGER.info("PostRest.getAllPost");
 		List<PostEntity> listPosts = postService.retrieveAll();
 		LOGGER.info("PostRest.getAllPost: " + listPosts);
 		return listPosts;
+	}
+	
+	@GET
+	@Path("/{id}")
+	public PostEntity get( @PathParam("id") Long entityId) throws AppException {
+		LOGGER.info("PostRest.get: id " + entityId);
+		PostEntity post =  postService.get(entityId);
+		LOGGER.info("PostRest.get: " + post);
+		return post;
 	}
 
 }
