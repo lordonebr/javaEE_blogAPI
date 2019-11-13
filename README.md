@@ -10,7 +10,7 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
       
   * Recupera um autor específico:  
   ```
-  GET http://localhost:8080/templatejee/rest/authors\{id}
+  GET http://localhost:8080/templatejee/rest/authors/{id}
   ```
   Exemplo para recuperar o autor de id = 1:
   http://localhost:8080/templatejee/rest/authors/1      
@@ -36,10 +36,10 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
       
   * Operação para remover um autor:  
   ```   
-  DELETE http://localhost:8080/templatejee/rest/authors\{id}
+  DELETE http://localhost:8080/templatejee/rest/authors/{id}
   ```  
   Exemplo para deletar o autor de id = 1:
-  http://localhost:8080/templatejee/rest/authors\1
+  http://localhost:8080/templatejee/rest/authors/1
 
 
 ---- POSTAGENS------------------------------------------------------- 
@@ -47,6 +47,13 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   ```
   GET http://localhost:8080/templatejee/rest/posts
   ```  
+  
+  * Recupera uma postagem específica:  
+  ```
+  GET http://localhost:8080/templatejee/rest/posts/{id}
+  ```
+  Exemplo para recuperar a postagem de id = 1:
+  http://localhost:8080/templatejee/rest/posts/1  
   
   * Recupera todas as postagens de um autor:  
   ```
