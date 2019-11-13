@@ -26,4 +26,14 @@ public class PostService {
 		LOGGER.info("PostService.retrieveAll: " + listPosts);
 		return listPosts;
 	}
+
+	public PostEntity get(Long entityId) {
+		LOGGER.info("PostService.get: id " + entityId);
+		
+		PostEntity post =  postRepository.get(entityId);
+		
+		LOGGER.info("PostService.get: " + post);
+		
+		return post;
+	}
 }

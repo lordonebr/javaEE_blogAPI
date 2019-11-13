@@ -5,6 +5,9 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
@@ -35,4 +38,33 @@ public class PostRepository extends AbstractRepository<Long, PostEntity> {
 		}
 	}
 
+	public PostEntity get(Long id) {
+		try {
+			LOGGER.info("PostRepository.get: id " + id);
+			
+			PostEntity post = GetPostById(id);
+	
+			LOGGER.info("PostRepository.get: return " + post);
+			return post;
+
+		} catch (AppException e) {
+			LOGGER.severe("PostRepository.get AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("PostRepository.get Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
+	private PostEntity GetPostById(Long entityId) {
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery q = cb.createQuery(PostEntity.class);
+		Root o = q.from(PostEntity.class);
+
+		q.where(cb.equal(o.get("id"), entityId));
+
+		PostEntity post = (PostEntity)getEntityManager().createQuery(q).getSingleResult();
+		return post;
+	}
 }

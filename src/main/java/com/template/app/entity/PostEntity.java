@@ -1,5 +1,7 @@
 package com.template.app.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.template.app.util.JsonDateSerializer;
 
 @Entity
 @Table(name="POST")
@@ -21,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-    @NamedQuery(name="PostEntity.retrieveAll", query="Select distinct a from PostEntity a"),
-    @NamedQuery(name="PostEntity.removeById", query="Delete from PostEntity a where a.id = :id")
+    @NamedQuery(name="PostEntity.retrieveAll", query="Select distinct a from PostEntity a")
 }) 
 
 public class PostEntity implements IEntity<Long> {
@@ -48,14 +56,28 @@ public class PostEntity implements IEntity<Long> {
 	@Column
 	private String title;
 	
-	public PostEntity() {
-		
+	@Temporal(TemporalType.TIMESTAMP) // yyyy-MM-dd HH:mm:ss
+	@Column
+	@JsonSerialize(using=JsonDateSerializer.class)
+	private Date dateCreated;
+	
+	@Temporal(TemporalType.TIMESTAMP) // yyyy-MM-dd HH:mm:ss
+	@Column
+	@JsonSerialize(using=JsonDateSerializer.class)
+	private Date dateLastUpdated;
+	
+	@PrePersist
+    protected void onCreate() {
+		dateCreated = new Date();
+		dateLastUpdated = new Date();
+    }
+	
+	@PreUpdate
+	protected void onUpdate() {
+		dateLastUpdated = new Date();
 	}
 	
-	public PostEntity(Long id, String title, String text) {
-		this.id = id;
-		this.title = title;
-		this.text = text;
+	public PostEntity() {
 	}
 	
 	@Override
@@ -83,5 +105,28 @@ public class PostEntity implements IEntity<Long> {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateLastUpdated() {
+		return dateLastUpdated;
+	}
+
+	public void setDateLastUpdated(Date dateLastUpdated) {
+		this.dateLastUpdated = dateLastUpdated;
+	}
+
+	public void setAttributes(PostEntity other) {
+		//this.id = other.id;
+		this.title = other.title;
+		this.text = other.text;
+	}
+	
 
 }

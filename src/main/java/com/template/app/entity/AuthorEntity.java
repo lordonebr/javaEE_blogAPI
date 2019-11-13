@@ -27,8 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-    @NamedQuery(name="AutorEntity.retrieveAll", query="Select distinct a from AuthorEntity a"),
-    @NamedQuery(name="AutorEntity.removeById", query="Delete from AuthorEntity a where a.id = :id")
+    @NamedQuery(name="AutorEntity.retrieveAll", query="Select distinct a from AuthorEntity a")
 }) 
 
 public class AuthorEntity implements IEntity<Long> {
@@ -52,16 +51,10 @@ public class AuthorEntity implements IEntity<Long> {
 	
 	@OneToMany (cascade=CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "POST_ID")
-	private List<PostEntity> listPostsEntity = new ArrayList<>();
+	private List<PostEntity> posts = new ArrayList<>();
 	
 	public AuthorEntity() {
 		
-	}
-	
-	public AuthorEntity(Long id, String name, List<PostEntity> listPostsEntity) {
-		this.id = id;
-		this.name = name;
-		this.listPostsEntity = listPostsEntity;
 	}
 	
 	@Override
@@ -82,12 +75,12 @@ public class AuthorEntity implements IEntity<Long> {
 		this.name = name;
 	}
 
-	public List<PostEntity> getListPostsEntity() {
-		return listPostsEntity;
+	public List<PostEntity> getPosts() {
+		return posts;
 	}
 
-	public void setListPostsEntity(List<PostEntity> listPostsEntity) {
-		this.listPostsEntity = listPostsEntity;
+	public void setPosts(List<PostEntity> listPostsEntity) {
+		this.posts = listPostsEntity;
 	}
 	
 }
