@@ -43,7 +43,8 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
 
 
 ---- POSTAGENS------------------------------------------------------- 
-* Recupera todas as postagens:  
-```
-GET http://localhost:8080/templatejee/rest/posts
-``` 
+  * Recupera todas as postagens:  
+  ```
+  GET http://localhost:8080/templatejee/rest/posts
+  ```  
+      
