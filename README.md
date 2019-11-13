@@ -72,4 +72,17 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   {
     "text": "novo texto",
     "title": "novo titulo"
-}
+  }
+  
+  * Operação para atualizar uma postagem de um autor (JSON obrigatório):  
+  ```   
+  PUT http://localhost:8080/templatejee/rest/authors/{id_author}/posts
+  ```
+  Exemplo para atualizar a postagem de id = 2 do autor de id = 1:
+  http://localhost:8080/templatejee/rest/authors/1/posts   
+  JSON:
+  {
+    "id": 2,
+    "text": "texto atualizado",
+    "title": "titulo atualizado"
+  }
