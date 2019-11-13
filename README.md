@@ -86,3 +86,10 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
     "text": "texto atualizado",
     "title": "titulo atualizado"
   }
+  
+  * Operação para remover uma postagem de um autor:  
+  ```   
+  DELETE http://localhost:8080/templatejee/rest/authors/{id_author}/posts/{id_post}
+  ```  
+  Exemplo para deletar a postagem de id = 2 do autor de id = 1:  
+  http://localhost:8080/templatejee/rest/authors/1/posts/2
