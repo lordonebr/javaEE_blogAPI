@@ -62,3 +62,12 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   Exemplo para recuperar todos as postagens do autor de id = 1:
   http://localhost:8080/templatejee/rest/authors/1/posts  
       
+  * Operação para adicionar uma postagem de um autor (JSON obrigatório):  
+  ```
+  POST http://localhost:8080/templatejee/rest/authors/{id_author}/posts
+  ```  
+  Exemplo de JSON onde cria uma nova postagem para o autor de id = 1:
+  {
+    "text": "novo texto",
+    "title": "novo titulo"
+}
