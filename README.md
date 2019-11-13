@@ -1,7 +1,7 @@
 # javaEE_blogAPI
 Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
 
-### To access web services:  
+### To access web services:    
 ---- AUTORES------------------------------------------------------- 
   * Recupera todos os autores:  
   ```
@@ -40,3 +40,10 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
   ```  
   Exemplo para deletar o autor de id = 1:
   http://localhost:8080/templatejee/rest/authors\1
+
+
+---- POSTAGENS------------------------------------------------------- 
+* Recupera todas as postagens:  
+```
+GET http://localhost:8080/templatejee/rest/posts
+``` 
