@@ -10,7 +10,7 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
       
   * Recupera um autor específico:  
   ```
-  GET http://localhost:8080/templatejee/rest/authors/{id}
+  GET http://localhost:8080/templatejee/rest/authors/{id_author}
   ```
   Exemplo para recuperar o autor de id = 1:
   http://localhost:8080/templatejee/rest/authors/1      
@@ -36,21 +36,21 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
       
   * Operação para remover um autor:  
   ```   
-  DELETE http://localhost:8080/templatejee/rest/authors/{id}
+  DELETE http://localhost:8080/templatejee/rest/authors/{id_author}
   ```  
   Exemplo para deletar o autor de id = 1:
   http://localhost:8080/templatejee/rest/authors/1
 
 
 ---- POSTAGENS------------------------------------------------------- 
-  * Recupera todas as postagens:  
+  * Recupera todas as postagens por ordem cronológica (por ordem da data de criação):  
   ```
   GET http://localhost:8080/templatejee/rest/posts
   ```  
   
   * Recupera uma postagem específica:  
   ```
-  GET http://localhost:8080/templatejee/rest/posts/{id}
+  GET http://localhost:8080/templatejee/rest/posts/{id_post}
   ```
   Exemplo para recuperar a postagem de id = 1:
   http://localhost:8080/templatejee/rest/posts/1  
@@ -87,9 +87,58 @@ Trabalho Final da disciplina: FRAMEWORKS BACK-END - JAVA
     "title": "titulo atualizado"
   }
   
+  * Operação para remover uma postagem:  
+  ```   
+  DELETE http://localhost:8080/templatejee/rest/posts/{id_post}
+  ```  
+  Exemplo para deletar a postagem de id = 2:
+  http://localhost:8080/templatejee/rest/posts/2
+  
+  
   * Operação para remover uma postagem de um autor:  
   ```   
   DELETE http://localhost:8080/templatejee/rest/authors/{id_author}/posts/{id_post}
   ```  
   Exemplo para deletar a postagem de id = 2 do autor de id = 1:  
   http://localhost:8080/templatejee/rest/authors/1/posts/2
+
+
+---- COMENTÁRIOS------------------------------------------------------- 
+  * Recupera todos os comentários por ordem cronológica (por ordem da data de criação):  
+  ```
+  GET http://localhost:8080/templatejee/rest/comments
+  ```  
+  
+  * Recupera um comentário específico:  
+  ```
+  GET http://localhost:8080/templatejee/rest/comments/{id_comment}
+  ```
+  Exemplo para recuperar o comentário de id = 1:
+  http://localhost:8080/templatejee/rest/comments/1  
+  
+  * Recupera todas os comentários de uma postagem:  
+  ```
+  GET http://localhost:8080/templatejee/rest/posts/{id_post}/comments
+  ```  
+  Exemplo para recuperar todos os comentários da postagem de id = 1:
+  http://localhost:8080/templatejee/rest/posts/1/comments
+  
+  * Operação para adicionar um comentário em uma postagem (JSON obrigatório):  
+  ```
+  POST http://localhost:8080/templatejee/rest/posts/{id_post}/comments
+  ```  
+  Exemplo para criar um novo comentário para a postagem de id = 1:
+  http://localhost:8080/templatejee/rest/posts/1/comments 
+  JSON:
+  {
+		    "text": "novo texto comentário",
+		    "userName": "Ana Luiza"
+		}
+  
+  * Operação para remover um comentário:  
+  ```   
+  DELETE http://localhost:8080/templatejee/rest/comments/{id_comment}
+  ```  
+  Exemplo para deletar o comentário de id = 2:
+  http://localhost:8080/templatejee/rest/comments/2
+  
