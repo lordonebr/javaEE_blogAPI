@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-    @NamedQuery(name="AutorEntity.retrieveAll", query="Select distinct a from AuthorEntity a")
+    @NamedQuery(name="AutorEntity.retrieveAll", query="Select distinct a from AuthorEntity a ORDER BY a.id ASC")
 }) 
 
 public class AuthorEntity implements IEntity<Long> {

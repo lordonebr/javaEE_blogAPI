@@ -1,6 +1,5 @@
 package com.template.app.rest;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,7 +33,6 @@ public class AuthorRest {
 	@GET
 	@Path("/")
 	public List<AuthorEntity> getAllAuthors() throws AppException{
-		 Date data = new Date();
 		LOGGER.info("AuthorRest.getAllAuthors");
 		List<AuthorEntity> listAuthors = authorService.retrieveAll();
 		LOGGER.info("AuthorRest.getAllAuthors: " + listAuthors);

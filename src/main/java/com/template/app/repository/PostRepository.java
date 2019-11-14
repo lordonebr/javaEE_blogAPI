@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.template.app.entity.CommentEntity;
 import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
 import com.template.app.messages.AppBeanMessages;
@@ -56,6 +57,67 @@ public class PostRepository extends AbstractRepository<Long, PostEntity> {
 		}
 	}
 	
+	public List<CommentEntity> getPostComments(Long entityId) {
+		try {
+			LOGGER.info("PostRepository.getPostComments: id " + entityId);
+			
+			PostEntity post = GetPostById(entityId);
+			
+			List<CommentEntity> lstComments = null;
+			if(post != null)
+				lstComments = post.getComments();
+	
+			LOGGER.info("PostRepository.getPostComments: return " + lstComments);
+			return lstComments;
+
+		} catch (AppException e) {
+			LOGGER.severe("PostRepository.getPostComments AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("PostRepository.getPostComments Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
+	public CommentEntity createCommentByPost(Long entityPostId, CommentEntity comment) {
+		try {
+			LOGGER.info("PostRepository.createCommentByPost");
+			PostEntity post = GetPostById(entityPostId);
+			List<CommentEntity> lstComments = post.getComments();
+			lstComments.add(comment);
+			 
+			getEntityManager().persist(post);	
+			
+			LOGGER.info("PostRepository.createCommentByPost: return " + comment);
+			return comment;
+
+		} catch (AppException e) {
+			LOGGER.severe("PostRepository.createCommentByPost AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("PostRepository.createCommentByPost Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
+	public void deleteById(Long entityId) {
+		try {
+			LOGGER.info("PostRepository.deleteById: id " + entityId);
+			
+			PostEntity post = GetPostById(entityId);
+			getEntityManager().remove(post);
+			
+			LOGGER.info("PostRepository.deleteById return");
+
+		} catch (AppException e) {
+			LOGGER.severe("PostRepository.deleteById AppException: "+e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			LOGGER.severe("PostRepository.deleteById Exception: "+e.getMessage());
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
 	private PostEntity GetPostById(Long entityId) {
 		
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -67,4 +129,7 @@ public class PostRepository extends AbstractRepository<Long, PostEntity> {
 		PostEntity post = (PostEntity)getEntityManager().createQuery(q).getSingleResult();
 		return post;
 	}
+
+
+	
 }

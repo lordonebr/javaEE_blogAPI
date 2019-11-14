@@ -1,14 +1,19 @@
 package com.template.app.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -30,7 +35,7 @@ import com.template.app.util.JsonDateSerializer;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-    @NamedQuery(name="PostEntity.retrieveAll", query="Select distinct a from PostEntity a")
+    @NamedQuery(name="PostEntity.retrieveAll", query="Select distinct p from PostEntity p ORDER BY p.dateCreated ASC")
 }) 
 
 public class PostEntity implements IEntity<Long> {
@@ -65,6 +70,10 @@ public class PostEntity implements IEntity<Long> {
 	@Column
 	@JsonSerialize(using=JsonDateSerializer.class)
 	private Date dateLastUpdated;
+	
+	@OneToMany (cascade=CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "COMMENT_ID")
+	private List<CommentEntity> comments = new ArrayList<>();
 	
 	@PrePersist
     protected void onCreate() {
@@ -120,6 +129,14 @@ public class PostEntity implements IEntity<Long> {
 
 	public void setDateLastUpdated(Date dateLastUpdated) {
 		this.dateLastUpdated = dateLastUpdated;
+	}
+	
+	public List<CommentEntity> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentEntity> comments) {
+		this.comments = comments;
 	}
 
 	public void setAttributes(PostEntity other) {

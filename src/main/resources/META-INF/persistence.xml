@@ -14,6 +14,7 @@
 		<!-- Entities -->
 		<class>com.template.app.entity.AuthorEntity</class>
 		<class>com.template.app.entity.PostEntity</class>
+		<class>com.template.app.entity.CommentEntity</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

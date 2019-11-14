@@ -15,3 +15,12 @@ insert into POST (id, title, text, dateCreated, dateLastUpdated) values ('3', 'T
 update POST set POST_ID = 1 where id = 1
 update POST set POST_ID = 1 where id = 2
 update POST set POST_ID = 2 where id = 3  
+insert into COMMENT (id, userName, text, dateCreated) values ('1', 'Paulo', 'Primeiro comentário na postagem 1!', CURRENT_TIMESTAMP);
+insert into COMMENT (id, userName, text, dateCreated) values ('2', 'Arthur', 'Segundo comentário na postagem 1!', CURRENT_TIMESTAMP);
+insert into COMMENT (id, userName, text, dateCreated) values ('3', 'Maria', 'Primeiro comentário na postagem 3!', CURRENT_TIMESTAMP);
+  call next value for SE_COMMENT;
+  call next value for SE_COMMENT;
+  call next value for SE_COMMENT;
+update COMMENT set COMMENT_ID = 1 where id = 1
+update COMMENT set COMMENT_ID = 1 where id = 2
+update COMMENT set COMMENT_ID = 3 where id = 3    
